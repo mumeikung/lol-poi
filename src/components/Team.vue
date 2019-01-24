@@ -1,6 +1,7 @@
 <template>
    <div class="column">
     <h1 class="title is-1" :class="color">{{ color }}</h1>
+    <hr>
     <h3 class="title is-3 teamName">{{ name }}</h3>
     <champion-skill v-for="(value, key) in championList" :key="'c' + key" :version="version" :name="value"/>
     <hr>
@@ -64,5 +65,6 @@ export default {
 }
 .teamName {
   font-weight: 900;
+  color: white;
 }
 </style>

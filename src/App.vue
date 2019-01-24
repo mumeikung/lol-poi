@@ -52,8 +52,10 @@ export default {
   created () {
     axios.get('https://ddragon.leagueoflegends.com/api/versions.json').then(resp => {
       const versionData = resp.data
-      this.version = versionData[0]
-      this.versionList = versionData
+      let version = []
+      for (let i = 0; i < 20; i++) version.push(versionData[i])
+      this.version = version[0]
+      this.versionList = version
     }).catch(error => {
       console.error('version', this.version, error)
     })
@@ -68,5 +70,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   margin-top: 20px;
+  color: white;
+  background-color: black;
 }
 </style>

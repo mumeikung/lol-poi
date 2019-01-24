@@ -71,6 +71,7 @@ export default {
 
 <style scoped>
 .marginBOT {
-  margin-bottom: 2px !important;
+  margin-bottom: 3px !important;
+  color: white;
 }
 </style>
