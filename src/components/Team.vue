@@ -1,8 +1,8 @@
 <template>
    <div class="column">
     <h1 class="title is-1" :class="color">{{ color }}</h1>
-    <hr>
     <h3 class="title is-3 teamName">{{ name }}</h3>
+    <hr>
     <champion-skill v-for="(value, key) in championList" :key="'c' + key" :version="version" :name="value"/>
     <hr>
     <input v-model="name" class="input has-text-centered" type="text" placeholder="TEAM NAME" style="margin-bottom: 12px;">
