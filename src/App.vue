@@ -1,36 +1,16 @@
 <template>
   <div id="app">
     <div class="container is-fluid">
+      <div class="columns is-mobile" v-if="version">
+        <team :version="version" :champions="championsList" color="blue"/>
+        <team :version="version" :champions="championsList" color="red"/>
+      </div>
       <div class="columns">
         <div class="column">
-          <h1 class="title is-1" style="color: blue;">BLUE</h1>
-          <input v-model="blueTeam" class="input is-large has-text-centered teamName" type="text" placeholder="BLUE TEAM">
-          <div class="columns" v-for="(value, key) in blueList" :key="key">
-            <div class="column">
-              <div class="select">
-                <select v-model="blueList[key]">
-                  <option :value="null">เลือก</option>
-                  <option v-for="name in nameList" :key="name + '1'" :value="name">{{ name }}</option>
-                </select>
-              </div>
-              <champion-skill :name="value"/>
-            </div>
-          </div>
-        </div>
-        <div class="column">
-          <h1 class="title is-1" style="color: red;">RED</h1>
-          <input v-model="redTeam" class="input is-large has-text-centered teamName" type="text" placeholder="RED TEAM">
-          <div class="columns" v-for="(value, key) in redList" :key="key">
-            <div class="column">
-              <div class="select">
-                <select v-model="redList[key]">
-                  <option :value="null">เลือก</option>
-                  <option v-for="name in nameList" :key="name + '1'" :value="name">{{ name }}</option>
-                </select>
-              </div>
-              <champion-skill :name="value"/>
-            </div>
-          </div>
+          VERSION
+          <select v-model="version">
+            <option v-for="ver in versionList" :key="ver" :value="ver">{{ ver }}</option>
+          </select>
         </div>
       </div>
     </div>
@@ -38,44 +18,45 @@
 </template>
 
 <script>
-import DATA from '@/champion.json'
-import CHAM from '@/components/Champion.vue'
+import axios from 'axios'
+import Team from '@/components/Team.vue'
 
 export default {
   name: 'app',
   components: {
-    'champion-skill': CHAM
+    'team': Team
   },
   data () {
     return {
-      nameList: [],
-      blueTeam: '',
-      redTeam: '',
-      redList: {
-        p1: null,
-        p2: null,
-        p3: null,
-        p4: null,
-        p5: null
-      },
-      blueList: {
-        p1: null,
-        p2: null,
-        p3: null,
-        p4: null,
-        p5: null
-      }
+      championsList: [],
+      versionList: [],
+      version: null
+    }
+  },
+  watch: {
+    version: function (value) {
+      axios.get('https://ddragon.leagueoflegends.com/cdn/' + value + '/data/th_TH/champion.json').then(resp => {
+        const championData = resp.data
+        let name = []
+        for (const key in championData.data) {
+          if (championData.data.hasOwnProperty(key)) {
+            name.push(key)
+          }
+        }
+        this.championsList = name
+      }).catch(error => {
+        console.error('champion', value, error)
+      })
     }
   },
   created () {
-    console.log(DATA.type, DATA.version)
-    let name = []
-    for (const key in DATA.data) {
-      if (DATA.data.hasOwnProperty(key)) {
-        name.push(key)
-      }
-    }
-    this.nameList = name
+    axios.get('https://ddragon.leagueoflegends.com/api/versions.json').then(resp => {
+      const versionData = resp.data
+      this.version = versionData[0]
+      this.versionList = versionData
+    }).catch(error => {
+      console.error('version', this.version, error)
+    })
   }
 }
 </script>
@@ -87,8 +68,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   margin-top: 20px;
-}
-.teamName {
-  font-weight: 900;
 }
 </style>
