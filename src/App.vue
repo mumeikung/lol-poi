@@ -70,7 +70,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   padding-top: 20px;
+  width: 100%;
   color: white;
   background-color: black;
+}
+body {
+  min-width: 750px;
+}
+.columns {
+  margin: 0px !important;
 }
 </style>
