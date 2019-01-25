@@ -2,8 +2,14 @@
   <div id="app">
     <div class="container is-fluid">
       <div class="columns is-mobile" v-if="version">
-        <team :version="version" :champions="championsList" color="blue"/>
-        <team :version="version" :champions="championsList" color="red"/>
+        <team :edit="edit" :version="version" :champions="championsList" color="blue"/>
+        <team :edit="edit" :version="version" :champions="championsList" color="red"/>
+      </div>
+      <hr>
+      <div class="columns">
+        <div class="column">
+          <button :class="'button ' + (edit ? 'is-warning' : 'is-success')" @click="edit = !edit">{{ edit ? 'EDIT MODE' : 'LOCK MODE' }}</button>
+        </div>
       </div>
       <div class="columns">
         <div class="column">
@@ -30,7 +36,8 @@ export default {
     return {
       championsList: {},
       versionList: [],
-      version: null
+      version: null,
+      edit: true
     }
   },
   watch: {
