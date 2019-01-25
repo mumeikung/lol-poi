@@ -1,15 +1,15 @@
 <template>
-  <div class="columns" v-if="name !== null">
+  <div class="columns">
     <div class="column is-3">
-      <img style="width: 90px; height: 90px;" :src="'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/champion/' + name + '.png'"><br>
-      <button :disabled="loading" class="button is-small" @click="loader">RELOAD</button>
+      <img style="width: 90px; height: 90px;" :alt="realname || 'SELECT'" :src="(name === null ? 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/profileicon/0.png' : 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/champion/' + name + '.png')"><br>
+      <button :disabled="loading || !name" class="button is-small tooltip is-tooltip-right" :data-tooltip="title ? title : (name ? 'RELOAD' : 'SELECT')" @click="loader">{{ realname ? realname : (name ? 'RELOAD' : 'SELECT')}}</button>
     </div>
     <div class="column is-9 has-text-left">
-      <h5 class="title is-5 marginBOT">Passive: {{ p || '-' }}</h5>
-      <h5 class="title is-5 marginBOT">Q: {{ q || '-' }}</h5>
-      <h5 class="title is-5 marginBOT">W: {{ w || '-' }}</h5>
-      <h5 class="title is-5 marginBOT">E: {{ e || '-' }}</h5>
-      <h5 class="title is-5 marginBOT">R: {{ r || '-' }}</h5>
+      <h5 class="title is-5 marginBOT tooltip is-tooltip-multiline is-tooltip-info" :data-tooltip="pd || '-'">Passive: {{ p || '-' }}</h5>
+      <h5 class="title is-5 marginBOT tooltip is-tooltip-multiline is-tooltip-info" :data-tooltip="qd || '-'">Q: {{ q || '-' }}</h5>
+      <h5 class="title is-5 marginBOT tooltip is-tooltip-multiline is-tooltip-info" :data-tooltip="wd || '-'">W: {{ w || '-' }}</h5>
+      <h5 class="title is-5 marginBOT tooltip is-tooltip-multiline is-tooltip-info" :data-tooltip="ed || '-'">E: {{ e || '-' }}</h5>
+      <h5 class="title is-5 marginBOT tooltip is-tooltip-multiline is-tooltip-info" :data-tooltip="rd || '-'">R: {{ r || '-' }}</h5>
     </div>
   </div>
 </template>
@@ -21,11 +21,18 @@ export default {
   props: ['name', 'version'],
   data () {
     return {
+      realname: '',
+      title: '',
       p: '',
       q: '',
       w: '',
       e: '',
       r: '',
+      pd: '',
+      qd: '',
+      wd: '',
+      ed: '',
+      rd: '',
       loading: false
     }
   },
@@ -38,14 +45,29 @@ export default {
           const championData = respon.data.data[this.name]
           console.log(this.name, championData)
           this.p = championData.passive.name
+          this.pd = championData.passive.description
+          this.realname = championData.name
+          this.title = championData.title
           for (const key in championData.spells) {
             if (championData.spells.hasOwnProperty(key)) {
               const element = championData.spells[key]
               // console.log(element.name)
-              if (key === '0') this.q = element.name
-              if (key === '1') this.w = element.name
-              if (key === '2') this.e = element.name
-              if (key === '3') this.r = element.name
+              if (key === '0') {
+                this.q = element.name
+                this.qd = element.description
+              }
+              if (key === '1') {
+                this.w = element.name
+                this.wd = element.description
+              }
+              if (key === '2') {
+                this.e = element.name
+                this.ed = element.description
+              }
+              if (key === '3') {
+                this.r = element.name
+                this.rd = element.description
+              }
             }
           }
         }).catch((error) => {
@@ -58,6 +80,11 @@ export default {
         this.w = ''
         this.e = ''
         this.r = ''
+        this.pd = ''
+        this.qd = ''
+        this.wd = ''
+        this.ed = ''
+        this.rd = ''
       }
     }
   },
