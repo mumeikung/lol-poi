@@ -8,7 +8,7 @@
     <input v-model="name" class="input has-text-centered" type="text" placeholder="TEAM NAME" style="margin-bottom: 12px;">
     <div class="columns is-mobile" v-for="(value, key) in championList" :key="'s' + key">
       <div class="column is-2 has-text-right">
-        <button v-if="key !== 'p1'" class="button is-dark" @click="swaper(key, 'up')">ขึ้น</button>
+        <button v-if="key !== 'p1' && value !== null" class="button is-dark" @click="swaper(key, 'up')">ขึ้น</button>
       </div>
       <div class="column is-8">
         <div class="select">
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="column is-2 has-text-left">
-        <button v-if="key !== 'p5'" class="button is-dark" @click="swaper(key, 'down')">ลง</button>
+        <button v-if="key !== 'p5' && value !== null" class="button is-dark" @click="swaper(key, 'down')">ลง</button>
       </div>
     </div>
     <button class="button is-dark" @click="clearAll">Clear Team</button>
