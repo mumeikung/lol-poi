@@ -78,6 +78,8 @@ export default {
           console.error(this.name, this.version, error)
         })
       } else {
+        this.realname = ''
+        this.title = ''
         this.p = ''
         this.q = ''
         this.w = ''
