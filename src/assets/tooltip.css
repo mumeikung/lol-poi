@@ -1,7 +1,7 @@
 .skilltip {
   display: block !important;
   z-index: 10000;
-  width: 300px;
+  width: 350px;
 }
  
 .skilltip .tooltip-inner {

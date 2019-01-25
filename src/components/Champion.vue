@@ -1,8 +1,8 @@
 <template>
   <div class="columns">
     <div class="column is-3">
-      <img style="width: 90px; height: 90px;" :alt="realname || 'SELECT'" :src="(name === null ? 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/profileicon/0.png' : 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/champion/' + name + '.png')"><br>
-      <button :disabled="loading || !name" class="button is-dark is-small tooltip is-tooltip-light is-tooltip-right" :data-tooltip="title ? title : (name ? 'RELOAD' : 'SELECT')" @click="loader">{{ realname ? realname : (name ? 'RELOAD' : 'SELECT')}}</button>
+      <img v-tooltip.top-start="{ content: nametip, html: true, classes: 'skilltip' }" style="width: 80px; height: 80px;" :alt="realname || 'SELECT'" :src="(name === null ? 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/profileicon/0.png' : 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/champion/' + name + '.png')"><br>
+      <button :disabled="loading || (name && realname) || !name" class="button is-small" @click="loader">{{ realname ? realname : (name ? 'RELOAD' : 'SELECT') }}</button>
     </div>
     <div class="column is-9 has-text-left">
       <h5 :class="skillClass" v-tooltip.top-start="{ content: pd, html: true, classes: 'skilltip' }">Passive: {{ p || '-' }}</h5>
@@ -25,6 +25,7 @@ export default {
       skillClass: 'title is-5 marginBOT',
       realname: '',
       title: '',
+      tags: [],
       p: '',
       q: '',
       w: '',
@@ -46,6 +47,7 @@ export default {
           this.loading = false
           const championData = respon.data.data[this.name]
           console.log(this.name, championData)
+          this.tags = championData.tags
           this.p = championData.passive.name
           this.pd = '<img class="skillImageClass" src="' + this.imageLink(championData.passive.image) + '"><p class="skillNameClass">' + championData.passive.name + '</p><p class="has-text-left">' + championData.passive.description + '</p>'
           this.realname = championData.name
@@ -99,6 +101,12 @@ export default {
   watch: {
     name: function (value) {
       this.loader()
+    }
+  },
+  computed: {
+    nametip: function () {
+      if (!this.realname || !this.title) return ''
+      return '<span class="skillNameClass">' + this.realname + '</span>, ' + this.title + '<br><span class="skillNameClass">' + this.tags.toString() + '</span>'
     }
   }
 }

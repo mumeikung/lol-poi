@@ -28,7 +28,7 @@ export default {
   },
   data () {
     return {
-      championsList: [],
+      championsList: {},
       versionList: [],
       version: null
     }
@@ -40,9 +40,15 @@ export default {
         let name = []
         for (const key in championData.data) {
           if (championData.data.hasOwnProperty(key)) {
-            name.push(key)
+            name.push({
+              id: championData.data[key].id,
+              name: championData.data[key].name
+            })
           }
         }
+        name.sort(function (a, b) {
+          return a.name.localeCompare(b.name)
+        })
         this.championsList = name
       }).catch(error => {
         console.error('champion', value, error)

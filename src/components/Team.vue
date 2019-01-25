@@ -14,7 +14,7 @@
         <div class="select">
           <select v-model="championList[key]">
             <option :value="null">เลือก</option>
-            <option v-for="name in champions" :key="name" :value="name">{{ name }}</option>
+            <option v-for="value in champions" :key="value.id" :value="value.id">{{ value.name }}</option>
           </select>
         </div>
       </div>
