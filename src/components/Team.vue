@@ -22,6 +22,7 @@
         <button v-if="key !== 'p5'" class="button is-dark" @click="swaper(key, 'down')">ลง</button>
       </div>
     </div>
+    <button class="button is-dark" @click="clearAll">Clear Team</button>
   </div>
 </template>
 
@@ -69,6 +70,16 @@ export default {
         const temp = this.championList[p1]
         this.championList[p1] = this.championList[p2]
         this.championList[p2] = temp
+      }
+    },
+    clearAll: function () {
+      this.name = ''
+      this.championList = {
+        p1: null,
+        p2: null,
+        p3: null,
+        p4: null,
+        p5: null
       }
     }
   }

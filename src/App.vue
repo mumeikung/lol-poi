@@ -69,7 +69,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-top: 20px;
+  padding-top: 20px;
   color: white;
   background-color: black;
 }
