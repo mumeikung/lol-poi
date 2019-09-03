@@ -97,11 +97,6 @@ export default {
           let championData = respon.data.data[this.name]
           console.log(this.name, championData)
           this.tags = championData.tags
-          // Neeko Passive
-          if (championData.id === 'Neeko') {
-            if (!championData.passive.name) championData.passive.name = 'Inherent Glamour'
-            if (!championData.passive.description) championData.passive.description = 'Neeko สามารถแปลงร่างตนเองให้กลายเป็นแชมเปี้ยนของเพื่อนร่วมทีมได้ การสร้างความเสียหายหรือได้รับความเสียหายจากแชมเปี้ยนศัตรู หรือการใช้ Blooming Burst กับ Tangle-Barbs จะเป็นการทำลายภาพลวงตาและเพิ่มคูลดาวน์ของสกิลนี้'
-          }
           this.p = championData.passive.name
           this.pd = '<img class="skillImageClass" src="' + this.imageLink(championData.passive.image) + '"><p class="skillNameClass">' + championData.passive.name + '</p><p class="has-text-left">' + championData.passive.description + '</p>'
           this.realname = championData.name
@@ -177,16 +172,6 @@ export default {
       return this.champions.filter(champion => {
         return champion.name.toLowerCase().indexOf(search) >= 0
       })
-      // let newChampions = []
-      // for (const key in this.champions) {
-      //   if (this.champions.hasOwnProperty(key)) {
-      //     const element = this.champions[key]
-      //     if (element.name.toLowerCase().indexOf(this.search.toLowerCase().trim()) >= 0) {
-      //       newChampions.push(element)
-      //     }
-      //   }
-      // }
-      // return newChampions
     }
   }
 }
